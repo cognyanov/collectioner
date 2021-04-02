@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Collectioner</title>
+</head>
+
+<body class="background">
+<div id="container">
+    <nav>
+        <div class="leftHeadEl">
+            <a class="logo" href="/" sec:authorize="!isAuthenticated()">Collectioner</a>
+            <a class="logo" href="/home" sec:authorize="isAuthenticated()">Collectioner</a>
+        </div>
+        <div class="rightHeadEl">
+            <a class="navBtn" href="/users/login" sec:authorize="!isAuthenticated()">Login</a>
+            <a class="navBtn" href="/users/register" sec:authorize="!isAuthenticated()">Register</a>
+            <a class="navBtn" href="/logout" sec:authorize="isAuthenticated()">Logout</a>
+        </div>
+
+    </nav>
+
+    Welcome, collectioner!
+</div>
+
+<footer class="footer">
+    <p>Collectioner 2021 Made by Krisityan Ognyanov</p>
+</footer>
+
+
+</body>
+
+</html>

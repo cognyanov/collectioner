@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Collectioner</title>
+</head>
+
+<body class="background">
+<div id="container">
+    <nav>
+        <div class="leftHeadEl">
+
+            <a class="logo" href="/home" sec:authorize="isAuthenticated()">Collectioner</a>
+        </div>
+        <div class="rightHeadEl">
+            <a class="navBtn" href="/users/login" sec:authorize="!isAuthenticated()">Login</a>
+            <a class="navBtn" href="/users/register" sec:authorize="!isAuthenticated()">Register</a>
+            <form method="POST" th:action="@{/logout}">
+                <button class="navBtn" sec:authorize="isAuthenticated()">Logout</button>
+            </form>
+
+        </div>
+    </nav>
+
+    <div class="menuLeft">
+        <div class="profile-info">
+            <p th:text="${getUsername}">Username</p>
+            <div class="energy">
+                <span>Energy: </span>
+                <span id="currEnergy" th:text="${hero.getEnergy()}"></span>
+                <span class="inline"> / 10</span>
+                <div class="energyBar" id="energyBar" style="width: 100%">Energy</div>
+            </div>
+        </div>
+
+        <ul th:object="${hero}" class="noMarker">
+            <li>
+                <div class="finances">
+                    HP
+                    <span th:text="*{HP}" class="toRight">100</span>
+                </div>
+            </li>
+            <li>
+                <div class="finances">
+                    ATTACK
+                    <span th:text="*{attack}" class="toRight">100</span>
+                </div>
+            </li>
+            <li>
+                <div class="finances">
+                    DEFENSE
+                    <span th:text="*{defense}" class="toRight">100</span>
+                </div>
+            </li>
+            <br>
+            <li>
+                <div class="finances">
+                    Right hand:
+                    <span th:text="*{weapon.name}" class="toRight">100</span>
+                </div>
+            </li>
+            <li>
+                <div class="finances">
+                  Left hand:
+                    <span th:text="*{shield.name}" class="toRight">100</span>
+                </div>
+            </li>
+            <br>
+            <li>
+                <div class="finances">
+                    Gold
+                    <span th:text="*{gold}" class="toRight">100</span>
+                </div>
+            </li>
+            <br>
+            <a href="/work">Work area</a> <br>
+            <a href="/training-ground">Training ground</a> <br>
+            <a href="/items-upgrade">Upgrade items</a> <br>
+            <a href="">Fight now</a> <br>
+            <a href="">Rankings</a>
+        </ul>
+
+    </div>
+</div>
+
+<footer class="footer">
+    <p>Collectioner 2021 Made by Krisityan Ognyanov</p>
+</footer>
+<script type="text/javascript" src="/js/app.js"></script>
+</body>
+
+</html>

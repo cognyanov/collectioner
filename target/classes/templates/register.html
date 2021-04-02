@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Register</title>
+</head>
+<body>
+
+<nav>
+    <div class="leftHeadEl">
+        <a class="logo" href="/">Collectioner</a>
+    </div>
+    <div class="rightHeadEl">
+        <a class="navBtn" href="/users/login">Login</a>
+        <a class="navBtn" href="/users/register">Register</a>
+    </div>
+</nav>
+
+<form th:object="${registrationBindingModel}"  method="POST" th:action="@{/users/register}" class="regForm">
+    <div>
+        <div class="reg-h1-div">
+            <h1 class="reg-h1">COLLECTIONER</h1>
+        </div>
+
+
+        <div class="reg-input">
+            <input th:value="*{username}" placeholder="Username" class="fl-l" type="text" name="username" id="username">
+            <p th:if="${#fields.hasErrors('username')}" class="reg-err">Username must be between 3 and 20
+                characters.</p>
+            <p th:if="${userExistsError}" class="reg-err">Username already exists.</p>
+        </div>
+
+        <div class="reg-input">
+            <input placeholder="Password" class="fl-l" type="password" name="password" id="password">
+            <p th:if="${#fields.hasErrors('password')}" class="reg-err">Password must be between 4 and 26 symbols.</p>
+        </div>
+
+        <div class="reg-input">
+            <input placeholder="Confirm password" class="fl-l" type="password" name="confirmPassword"
+                   id="confirmPassword">
+            <p th:if="${diffPasswords}" class="reg-err">Passwords
+                don't match.</p>
+            <p th:if="${#fields.hasErrors('confirmPassword')}" class="reg-err">Please confirm password.</p>
+        </div>
+
+
+        <div class="reg-btn-div">
+            <button type="submit" class="reg-btn">REGISTER NOW</button>
+        </div>
+    </div>
+
+</form>
+
+<footer class="footer">
+    <p>Collectioner 2021 Made by Krisityan Ognyanov</p>
+</footer>
+
+</body>
+</html>
