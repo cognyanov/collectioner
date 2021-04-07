@@ -13,25 +13,12 @@
 
 <body class="background">
 <div id="container">
-    <nav>
-        <div class="leftHeadEl">
-            <a class="logo" href="/" sec:authorize="!isAuthenticated()">Collectioner</a>
-            <a class="logo" href="/home" sec:authorize="isAuthenticated()">Collectioner</a>
-        </div>
-        <div class="rightHeadEl">
-            <a class="navBtn" href="/users/login" sec:authorize="!isAuthenticated()">Login</a>
-            <a class="navBtn" href="/users/register" sec:authorize="!isAuthenticated()">Register</a>
-            <a class="navBtn" href="/logout" sec:authorize="isAuthenticated()">Logout</a>
-        </div>
-
-    </nav>
+    <nav th:replace="fragments/commons :: navigation"></nav>
 
     Welcome, collectioner!
 </div>
 
-<footer class="footer">
-    <p>Collectioner 2021 Made by Krisityan Ognyanov</p>
-</footer>
+<footer th:replace="fragments/commons :: footer"></footer>
 
 
 </body>
