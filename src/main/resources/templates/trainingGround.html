@@ -13,28 +13,20 @@
 
 <body class="background">
 <div id="container">
-    <nav>
-        <div class="leftHeadEl">
-
-            <a class="logo" href="/home" sec:authorize="isAuthenticated()">Collectioner</a>
-        </div>
-        <div class="rightHeadEl">
-            <a class="navBtn" href="/users/login" sec:authorize="!isAuthenticated()">Login</a>
-            <a class="navBtn" href="/users/register" sec:authorize="!isAuthenticated()">Register</a>
-            <form method="POST" th:action="@{/logout}">
-                <button class="navBtn" sec:authorize="isAuthenticated()">Logout</button>
-            </form>
-
-        </div>
-    </nav>
+    <nav th:replace="fragments/commons :: navigation"></nav>
 
     <div class="menuLeft">
         <div class="profile-info">
             <p th:text="${getUsername}">Username</p>
             <div class="energy">
                 <span>Energy: </span>
-                <span th:text="${hero.getEnergy()}"></span>
+                <span id="currEnergy" th:text="${hero.getEnergy()}"></span>
                 <span class="inline"> / 10</span>
+                <div class="energyBar" id="energyBar" style="width: 100%">Energy</div>
+                <span>You can restore </span>
+                <span th:text="${hero.energyToRestore}"></span>
+                <span> energy</span>
+                <a href="/restoreEnergy">Restore</a>
             </div>
         </div>
 
@@ -78,6 +70,7 @@
                 </div>
             </li>
             <br>
+            <a href="/storage">Storage</a> <br>
             <a href="/work">Work area</a> <br>
             <a href="/training-ground">Training ground</a> <br>
             <a href="/items-upgrade">Upgrade items</a> <br>
@@ -96,9 +89,7 @@
     </div>
 </div>
 
-<footer class="footer">
-    <p>Collectioner 2021 Made by Krisityan Ognyanov</p>
-</footer>
+<footer th:replace="fragments/commons :: footer"></footer>
 
 </body>
 

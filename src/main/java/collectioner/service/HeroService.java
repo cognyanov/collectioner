@@ -12,4 +12,8 @@ public interface HeroService {
 
     boolean upgradeWeapon();
     boolean upgradeShield();
+
+    void restoreEnergy();
+
+    void usePotion();
 }

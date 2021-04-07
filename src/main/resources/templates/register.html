@@ -11,17 +11,9 @@
 </head>
 <body>
 
-<nav>
-    <div class="leftHeadEl">
-        <a class="logo" href="/">Collectioner</a>
-    </div>
-    <div class="rightHeadEl">
-        <a class="navBtn" href="/users/login">Login</a>
-        <a class="navBtn" href="/users/register">Register</a>
-    </div>
-</nav>
+<nav th:replace="fragments/commons :: navigation"></nav>
 
-<form th:object="${registrationBindingModel}"  method="POST" th:action="@{/users/register}" class="regForm">
+<form th:object="${registrationBindingModel}" method="POST" th:action="@{/users/register}" class="regForm">
     <div>
         <div class="reg-h1-div">
             <h1 class="reg-h1">COLLECTIONER</h1>
@@ -56,9 +48,7 @@
 
 </form>
 
-<footer class="footer">
-    <p>Collectioner 2021 Made by Krisityan Ognyanov</p>
-</footer>
+<footer th:replace="fragments/commons :: footer"></footer>
 
 </body>
 </html>

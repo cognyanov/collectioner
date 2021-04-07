@@ -2,14 +2,24 @@ package collectioner.web;
 
 import collectioner.model.entity.HeroEntity;
 import collectioner.service.HeroService;
+import org.apache.catalina.filters.ExpiresFilter;
+import org.apache.coyote.Request;
+import org.hibernate.validator.constraints.URL;
+import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.print.attribute.Attribute;
+import javax.servlet.http.HttpSession;
+import javax.swing.*;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
 
 @Controller
 
@@ -23,7 +33,11 @@ public class HomeController {
 
     @ModelAttribute("getUsername")
     public String getUsername() {
-        return getCurrentUsername();
+        StringBuilder name = new StringBuilder();
+        String oldName = getCurrentUsername();
+        name.append(oldName.substring(0, 1).toUpperCase());
+        name.append(oldName.substring(1));
+        return name.toString();
 
     }
 
@@ -41,6 +55,7 @@ public class HomeController {
         return heroService.getCurrentHero().getEnergy() + "";
     }
 
+
     @GetMapping("/")
     public String index() {
 
@@ -51,6 +66,13 @@ public class HomeController {
     public String home() {
 
         return "home";
+    }
+
+    @GetMapping("/restoreEnergy")
+    public String restoreEnergy() {
+        heroService.restoreEnergy();
+
+        return "redirect:/home";
     }
 
 

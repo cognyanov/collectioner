@@ -104,6 +104,34 @@ public class HeroServiceImpl implements HeroService {
         }
     }
 
+    @Override
+    public void restoreEnergy() {
+        HeroEntity hero = getCurrentHero();
+        while (hero.getEnergyToRestore() > 0 && hero.getEnergy() < 10) {
+            if (hero.getSteaks() > 0) {
+                hero.setEnergy(hero.getEnergy() + 1);
+                hero.setEnergyToRestore(hero.getEnergyToRestore() - 1);
+                hero.setSteaks(hero.getSteaks() - 1);
+            } else {
+                break;
+            }
+        }
+        heroRepository.save(hero);
+
+    }
+
+    @Override
+    public void usePotion() {
+        HeroEntity hero = getCurrentHero();
+        if (hero.getEnergy() < 10) {
+            if (hero.getEnergyPotions() > 0) {
+                hero.setEnergy(10);
+                hero.setEnergyPotions(hero.getEnergyPotions() - 1);
+                heroRepository.save(hero);
+            }
+        }
+    }
+
     public String getCurrentUsername() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Collectioner</title>
+</head>
+
+<body class="background">
+<div id="container">
+    <nav th:replace="fragments/commons :: navigation"></nav>
+
+    <div class="adminView">
+        <nav>
+            <button id="promoteUserBtn">Promote user</button>
+            <button id="demoteUserBtn">Demote user</button>
+        </nav>
+        <div class="adminUpdateRolesDiv" id="divPromoteUser">
+            <p th:if="*{hasHigherRole}">The user that you are trying to update already has the same or higher role.</p>
+            <p th:if="*{invalidUsername}">You have entered an invalid username.</p>
+            <p th:if="*{usernameNotFound}">Username was not found.</p>
+            <form th:action="@{/admin/updateUserRoles}" method="POST">
+                <p>Add a new role to user</p>
+                <p>Please enter an account username and choose the role you would like to add.</p>
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username">
+                <label for="role">Add a new role:</label>
+                <select name="role" id="role">
+                    <option value="USER">USER</option>
+                    <option value="ADMIN">ADMIN</option>
+                </select>
+                <button type="submit">Update</button>
+            </form>
+        </div>
+        <div class="adminUpdateRolesDiv" id="divDemoteUser">
+            <p th:if="*{usernameNotFound}">Username was not found.</p>
+            <p th:if="*{invalidUsername}">You have entered an invalid username.</p>
+            <p th:if="*{invalidDemote}">The selected role is already the highest role that the user owns.</p>
+
+            <form th:action="@{/admin/demoteUserRole}" method="POST">
+                <p>Demote user role</p>
+                <p>Please enter an account username and choose the role to which you want it to be demoted.</p>
+                <label for="usernameDemote">Username:</label>
+                <input type="text" name="usernameDemote" id="usernameDemote">
+                <label for="roleDemote">Demote to role:</label>
+                <select name="roleDemote" id="roleDemote">
+                    <option value="USER">USER</option>
+                    <option value="ADMIN">ADMIN</option>
+                </select>
+                <button type="submit">Update</button>
+            </form>
+        </div>
+        <div>
+            <form th:action="@{/admin/updateGold}">
+                <label for="usernameGold">Username:</label>
+                <input type="text" name="usernameGold" id="usernameGold">
+                <label for="goldUpdateType">Type of transaction</label>
+                <select name="goldUpdateType" id="goldUpdateType">
+                    <option value="ADD">Add gold</option>
+                    <option value="REMOVE">Remove gold</option>
+                </select>
+                <label for="amountGold">Amount:</label>
+                <input type="text" name="amountGold" id="amountGold">
+                <button type="submit">Update</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<footer th:replace="fragments/commons :: footer"></footer>
+<script type="text/javascript" src="/js/app.js"></script>
+</body>
+
+</html>

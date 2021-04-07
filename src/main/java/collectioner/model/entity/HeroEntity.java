@@ -18,11 +18,23 @@ public class HeroEntity extends BaseEntity{
     private int gold;
     private boolean hasWorked = false;
     private boolean hasTrained = false;
+    private int aluminium;
+    private int steel;
+    private int steaks;
+    private int rawSteaks;
+    private int energyPotions;
+    private int energyToRestore;
 
     @ManyToOne
     private ItemEntity weapon;
     @ManyToOne
     private ItemEntity shield;
+
+    public void updateStats() {
+        this.HP = this.baseHP + this.weapon.getHP() + this.shield.getHP();
+        this.attack = this.baseAttack + this.weapon.getATK() + this.shield.getATK();
+        this.defense = this.baseDefense + this.weapon.getDEF() + this.shield.getDEF();
+    }
 
 
     public int getHP() {
@@ -121,9 +133,51 @@ public class HeroEntity extends BaseEntity{
         this.hasTrained = hasTrained;
     }
 
-    public void updateStats() {
-        this.HP = this.baseHP + this.weapon.getHP() + this.shield.getHP();
-        this.attack = this.baseAttack + this.weapon.getATK() + this.shield.getATK();
-        this.defense = this.baseDefense + this.weapon.getDEF() + this.shield.getDEF();
+    public int getAluminium() {
+        return aluminium;
+    }
+
+    public void setAluminium(int aluminium) {
+        this.aluminium = aluminium;
+    }
+
+    public int getSteel() {
+        return steel;
+    }
+
+    public void setSteel(int steel) {
+        this.steel = steel;
+    }
+
+    public int getSteaks() {
+        return steaks;
+    }
+
+    public void setSteaks(int steaks) {
+        this.steaks = steaks;
+    }
+
+    public int getRawSteaks() {
+        return rawSteaks;
+    }
+
+    public void setRawSteaks(int rawSteaks) {
+        this.rawSteaks = rawSteaks;
+    }
+
+    public int getEnergyPotions() {
+        return energyPotions;
+    }
+
+    public void setEnergyPotions(int energyPotions) {
+        this.energyPotions = energyPotions;
+    }
+
+    public int getEnergyToRestore() {
+        return energyToRestore;
+    }
+
+    public void setEnergyToRestore(int energyToRestore) {
+        this.energyToRestore = energyToRestore;
     }
 }

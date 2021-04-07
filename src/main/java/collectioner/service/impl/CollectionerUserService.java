@@ -31,8 +31,8 @@ public class CollectionerUserService implements UserDetailsService {
     public void scheduleUpdateEnergyToAll() {
 
         heroRepository.findAll().forEach(h -> {
-            if (h.getEnergy() < 10) {
-                h.setEnergy(h.getEnergy() + 1);
+            if (h.getEnergyToRestore() < 10) {
+                h.setEnergyToRestore(h.getEnergyToRestore() + 1);
                 heroRepository.save(h);
             }
         });

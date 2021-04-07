@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:fragment="head">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>My Music DB Application</title>
+    <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+
+// Navigation
+<nav th:fragment="navigation">
+    <div class="leftHeadEl">
+
+        <a class="logo" href="/home" sec:authorize="isAuthenticated()">Collectioner</a>
+        <a class="logo" href="/" sec:authorize="!isAuthenticated()">Collectioner</a>
+    </div>
+    <div class="adminPanel">
+        <a id="adminPanelBtn" class="navBtn" href="/admin" sec:authorize="hasRole('ROLE_ADMIN')">Admin panel</a>
+    </div>
+    <div class="rightHeadEl">
+        <a class="navBtn" href="/users/login" sec:authorize="!isAuthenticated()">Login</a>
+        <a class="navBtn" href="/users/register" sec:authorize="!isAuthenticated()">Register</a>
+        <form method="POST" th:action="@{/logout}">
+            <button class="navBtn" sec:authorize="isAuthenticated()">Logout</button>
+        </form>
+
+    </div>
+</nav>
+
+
+// Footer
+<footer th:fragment="footer" class="footer">
+    <p>Collectioner 2021 Made by Kristiyan Ognyanov</p>
+</footer>
+
+</body>
+</html>
