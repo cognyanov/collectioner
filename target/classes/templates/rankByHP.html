@@ -86,6 +86,54 @@
         </ul>
 
     </div>
+
+    <div class="midView">
+        <div class="fightDiv">
+            <div class="rankTopLabel">
+                <h1 class="toCenter">Top 10 players</h1>
+                <p>
+                <h2 class="toCenter">
+                    Sort by:
+                    <div class="sortBtnDiv">
+                        <a class="sortBtn" href="/rankings/byAttack">Attack</a>
+
+                    </div>
+                    <div class="sortBtnDiv">
+                        <a class="sortBtn" href="/rankings/byDefense">Defense</a>
+
+                    </div>
+                    <div class="sortBtnDiv"  style="border: 3px inset rgb(196, 194, 194)">
+                        <a class="sortBtn" href="/rankings/byHP">HP</a>
+                    </div>
+                </h2>
+
+                </p>
+            </div>
+            <div class="rankBottom">
+                <div class="rankList">
+                    <div class="rankRow">
+                        <div class="rankColPlaceHead">Place</div>
+                        <div class="rankColHead">Hero</div>
+                        <div class="rankColHead">HP <strong>↓</strong></div>
+                        <div class="rankColHead">Attack</div>
+                        <div class="rankColHead">Defense</div>
+                        <div class="rankColHead">Left hand</div>
+                        <div class="rankColHead">Right hand</div>
+                    </div>
+                    <div class="rankRow" th:each="user, iter: ${top10ByHP}">
+                        <div class="rankColPlace" th:text="${iter.index + 1}">1</div>
+                        <div class="rankCol" th:text="${user.getUsername()}">Goshko</div>
+                        <div class="rankCol" th:text="${user.getHero().getHP()}">100</div>
+                        <div class="rankCol" th:text="${user.getHero().getAttack()}">200</div>
+                        <div class="rankCol" th:text="${user.getHero().getDefense()}">3000000</div>
+                        <div class="rankCol" th:text="${user.getHero().getShield().getName()}">Shield Level 2</div>
+                        <div class="rankCol" th:text="${user.getHero().getWeapon().getName()}">Weapon Level 10</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <footer th:replace="fragments/commons :: footer"></footer>

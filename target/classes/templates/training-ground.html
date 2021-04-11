@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -81,11 +79,46 @@
             </li>
 
             <br>
-
             <div th:replace="fragments/commons :: navigBtns"></div>
         </ul>
 
     </div>
+
+
+    <div class="menuLeft">
+        <div style="text-align: center">
+            <h1>Training ground</h1>
+        </div>
+        <div class="workInfo">
+            <span>Costs 1 energy and will grant you:</span><br>
+            <span>+ 4 ATK</span> <br>
+            <span>+ 2 DEF</span> <br>
+            <span>Only available once per day.</span> <br><br>
+            <span>Every 5th day of training you will receive bonus stats:</span> <br>
+            <span>+ 4 ATK</span> <br>
+            <span>+ 2 DEF</span> <br>
+            <span>Your days: </span>
+            <span th:text="${hero.getDaysTrained()}">0</span>
+            <span>/ 5</span>
+        </div>
+        <div th:if="${!hasTrained}" class="workBtnDiv">
+            <a class="workBtn" href="/training-ground/trainNow">Train</a>
+        </div>
+        <div th:if="${hasTrained}" class="workBtnBlockedDiv">
+            <span class="workBtn" href="">Train</span>
+        </div>
+        <div th:if="${successfullyWorkedOut}" class="successWorked">
+            <span>You received:</span> <br>
+            <span>+ 4 ATK</span> <br>
+            <span>+ 2 DEF</span>
+
+            <span th:if="${bonusTrain}"><br>
+                    <br>+ 4 ATK + 2 DEF bonus stats for training 5 days.</span>
+        </div>
+
+    </div>
+
+
 </div>
 
 <footer th:replace="fragments/commons :: footer"></footer>

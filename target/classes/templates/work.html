@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -17,18 +15,28 @@
 
     <div class="menuLeft">
         <div class="profile-info">
-            <p th:text="${getUsername}">Username</p>
-            <div class="energy">
-                <span>Energy: </span>
-                <span id="currEnergy" th:text="${hero.getEnergy()}"></span>
-                <span class="inline"> / 10</span>
-                <div class="energyBar" id="energyBar" style="width: 100%">Energy</div>
-                <span>You can restore </span>
-                <span th:text="${hero.energyToRestore}"></span>
-                <span> energy</span>
-                <a href="/restoreEnergy">Restore</a>
+            <div class="usernameText">
+                <span th:text="${getUsername}">Username</span>
             </div>
         </div>
+        <div class="energy">
+            <span>Energy: </span>
+            <span id="currEnergy" th:text="${hero.getEnergy()}"></span>
+            <span class="inline"> / 10</span>
+            <div class="energyBarHolder">
+                <div class="energyBar" id="energyBar"></div>
+            </div>
+            <span>You can restore </span>
+            <span th:text="${hero.energyToRestore}"></span>
+            <span> energy</span>
+            <div th:if="${canRestoreEnergy}" class="workBtnDiv">
+                <a class="workBtn" href="/restoreEnergy">Restore</a>
+            </div>
+            <div th:if="${!canRestoreEnergy}"  class="workBtnBlockedDiv">
+                <a class="workBtn" href="/restoreEnergy">Restore</a>
+            </div>
+        </div>
+
 
         <ul th:object="${hero}" class="noMarker">
             <li>
@@ -51,46 +59,64 @@
             </li>
             <br>
             <li>
-                <div class="finances">
-                    Right hand:
-                    <span th:text="*{weapon.name}" class="toRight">100</span>
+                <div class="itemsMenuBox">
+                    Left hand
+                    <span th:text="*{shield.name}" class="toRight"><strong>Shield Level 100</strong></span>
+                </div>
+                <div class="itemsMenuBox">
+                    Right hand
+                    <br><span th:text="*{weapon.name}" class="toRight"><strong>Weapon Level 20</strong></span>
                 </div>
             </li>
-            <li>
-                <div class="finances">
-                    Left hand:
-                    <span th:text="*{shield.name}" class="toRight">100</span>
-                </div>
-            </li>
+
             <br>
             <li>
                 <div class="finances">
                     Gold
+                    <img class="goldCoin toRight" src="/img/goldCoinSmall.jpg" alt="">
                     <span th:text="*{gold}" class="toRight">100</span>
                 </div>
             </li>
-            <br>
-            <a href="/storage">Storage</a> <br>
-            <a href="/work">Work area</a> <br>
-            <a href="/training-ground">Training ground</a> <br>
-            <a href="/items-upgrade">Upgrade items</a> <br>
-            <a href="">Fight now</a> <br>
-            <a href="">Rankings</a>
-        </ul>
 
-        <ul>
-            <li>
-                <a th:if="!${hasWorked}" href="/work/workNow">Work</a>
-                <p th:if="${successfullyWorked}">Successfully worked.</p>
-                <p th:if="${notEnoughEnergy}">Not enough energy.</p>
-            </li>
+            <br>
+            <div th:replace="fragments/commons :: navigBtns"></div>
         </ul>
 
     </div>
+
+
+        <div class="menuLeft">
+            <div style="text-align: center">
+                <h1>Work area</h1>
+            </div>
+            <div class="workInfo">
+                <span>Costs 1 energy and will grant you 5 gold  <img class="goldCoin" src="/img/goldCoinSmall.jpg" alt=""></span> <br>
+                <span>Only available once per day.</span> <br><br>
+                <span>Every 7th day of work you will receive 5 bonus gold  <img class="goldCoin" src="/img/goldCoinSmall.jpg" alt=""></span> <br>
+                <span>Your days: </span>
+                <span th:text="${hero.getDaysWorked()}">0</span>
+                <span>/ 7</span>
+            </div>
+            <div th:if="${!hasWorked}" class="workBtnDiv">
+                <a class="workBtn" href="/work/workNow">Work</a>
+            </div>
+            <div th:if="${hasWorked}" class="workBtnBlockedDiv">
+                <span class="workBtn" href="">Work</span>
+            </div>
+            <div th:if="${successfullyWorked}" class="successWorked">
+                <span>You received 5 gold  <img class="goldCoin" src="/img/goldCoinSmall.jpg" alt=""></span>
+
+                <span th:if="${bonusWork}"><br>
+                    <br>+ 5 bonus gold for working 7 days.</span>
+            </div>
+
+        </div>
+
+
 </div>
 
 <footer th:replace="fragments/commons :: footer"></footer>
-
+<script type="text/javascript" src="/js/app.js"></script>
 </body>
 
 </html>

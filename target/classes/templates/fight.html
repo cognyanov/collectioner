@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Collectioner</title>
+</head>
+
+<body class="background">
+<div id="container">
+    <nav th:replace="fragments/commons :: navigation"></nav>
+
+    <div class="menuLeft">
+        <div class="profile-info">
+            <div class="usernameText">
+                <span th:text="${getUsername}">Username</span>
+            </div>
+        </div>
+        <div class="energy">
+            <span>Energy: </span>
+            <span id="currEnergy" th:text="${hero.getEnergy()}"></span>
+            <span class="inline"> / 10</span>
+            <div class="energyBarHolder">
+                <div class="energyBar" id="energyBar"></div>
+            </div>
+            <span>You can restore </span>
+            <span th:text="${hero.energyToRestore}"></span>
+            <span> energy</span>
+            <div th:if="${canRestoreEnergy}" class="workBtnDiv">
+                <a class="workBtn" href="/restoreEnergy">Restore</a>
+            </div>
+            <div th:if="${!canRestoreEnergy}" class="workBtnBlockedDiv">
+                <a class="workBtn" href="/restoreEnergy">Restore</a>
+            </div>
+        </div>
+
+
+        <ul th:object="${hero}" class="noMarker">
+            <li>
+                <div class="finances">
+                    HP
+                    <span th:text="*{HP}" class="toRight">100</span>
+                </div>
+            </li>
+            <li>
+                <div class="finances">
+                    ATTACK
+                    <span th:text="*{attack}" class="toRight">100</span>
+                </div>
+            </li>
+            <li>
+                <div class="finances">
+                    DEFENSE
+                    <span th:text="*{defense}" class="toRight">100</span>
+                </div>
+            </li>
+            <br>
+            <li>
+                <div class="itemsMenuBox">
+                    Left hand
+                    <span th:text="*{shield.name}" class="toRight"><strong>Shield Level 100</strong></span>
+                </div>
+                <div class="itemsMenuBox">
+                    Right hand
+                    <br><span th:text="*{weapon.name}" class="toRight"><strong>Weapon Level 20</strong></span>
+                </div>
+            </li>
+
+            <br>
+            <li>
+                <div class="finances">
+                    Gold
+                    <img class="goldCoin toRight" src="/img/goldCoinSmall.jpg" alt="">
+                    <span th:text="*{gold}" class="toRight">100</span>
+                </div>
+            </li>
+
+            <br>
+            <div th:replace="fragments/commons :: navigBtns"></div>
+        </ul>
+
+    </div>
+
+    <div class="midView">
+        <div class="fightDiv">
+            <div class="portalCol">
+                <img class="portalImg"
+                     src="https://art.ngfiles.com/images/285000/285390_trizzzcentrino_void-portal.png?f1390785403"
+                     alt="">
+                <div class="portalInfo">
+                    <div class="portalName">
+                        <span>Void portal</span> <br>
+                        <span>Level 1</span>
+                    </div>
+                    <div class="portalNeeds">
+                        <span>Requires at least 30 ATK to enter.</span><br>
+                        <span>The attack will cost you:</span> <br>
+                        <span><strong>- 1 energy</strong></span> <br>
+                        <span>You will receive:</span> <br>
+                        <span><strong>+ 1 gold <img class="goldCoin" src="/img/goldCoinSmall.jpg"
+                                                    alt=""></strong></span><br>
+                        <span><strong>+ 2 raw meat</strong></span> <br>
+                        <span><strong>+ chance to find materials</strong></span><br>
+                    </div>
+                </div>
+                <div class="attackBtnDiv">
+                    <div class="attackBtnInner">
+
+                        <a th:if="${!lowToEnterVoid}" class="attackBtn" href="/attack/void">Attack</a>
+                        <a th:if="${lowToEnterVoid}" class="attackBtnBlocked">Locked</a>
+                    </div>
+                    <div class="atkLogoDiv">
+                        <img class="atkLogo" src="/img/malukMech.png" alt="">
+                    </div>
+                </div>
+
+            </div>
+            <div class="portalCol midPortalCol">
+                <img class="portalImg"
+                     src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/66cdfa3f-b1bd-45fe-abbb-71e344c497c2/d1it9hb-d09d43a9-0d68-49b9-ac1c-12f1332c7ab9.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvNjZjZGZhM2YtYjFiZC00NWZlLWFiYmItNzFlMzQ0YzQ5N2MyXC9kMWl0OWhiLWQwOWQ0M2E5LTBkNjgtNDliOS1hYzFjLTEyZjEzMzJjN2FiOS5qcGcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.J5nB_buZYaGFQwG1IGRCuP9Zww9GMymsERNk2uXCtb8"
+                     alt="">
+                <div class="portalInfo">
+                    <div class="portalName">
+                        <span>Nether portal</span> <br>
+                        <span>Level 2</span>
+                    </div>
+                    <div class="portalNeeds">
+                        <span>Requires at least 100 ATK to enter.</span><br>
+                        <span>The attack will cost you:</span> <br>
+                        <span><strong>- 2 energy</strong></span> <br>
+                        <span>You will receive:</span> <br>
+                        <span><strong>+ 2 gold</strong> <img class="goldCoin" src="/img/goldCoinSmall.jpg"
+                                                             alt=""></span><br>
+                        <span><strong>+ 1 raw meat</strong></span> <br>
+                        <span><strong>+ chance to find materials</strong></span><br>
+                    </div>
+                </div>
+                <div class="attackBtnDiv">
+                    <div class="attackBtnInner">
+                        <a th:if="${!lowToEnterNether}" class="attackBtn" href="/attack/nether">Attack</a>
+                        <a th:if="${lowToEnterNether}" class="attackBtnBlocked">Locked</a>
+                    </div>
+                    <div class="atkLogoDiv">
+                        <img class="atkLogo" src="/img/malukMech.png" alt="">
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="portalCol">
+                <img class="portalImg"
+                     src="https://i.pinimg.com/originals/f5/53/61/f553614b033224f2e81e3fa177a7015f.png" alt="">
+                <div class="portalInfo">
+                    <div class="portalName">
+                        <span>Fire portal</span> <br>
+                        <span>Level 3</span>
+                    </div>
+                    <div class="portalNeeds">
+                        <span>Requires at least 300 ATK to enter.</span><br>
+                        <span>The attack will cost you:</span> <br>
+                        <span><strong>- 5 energy</strong></span> <br>
+                        <span>You will receive:</span> <br>
+                        <span><strong>+ 3 gold</strong> <img class="goldCoin" src="/img/goldCoinSmall.jpg"
+                                                             alt=""></span><br>
+                        <span><strong>+ 1 raw meat</strong></span> <br>
+                        <span><strong>+ chance to find materials</strong></span><br>
+                    </div>
+                </div>
+                <div class="attackBtnDiv">
+                    <div class="attackBtnInner">
+
+                        <a th:if="${!lowToEnterFire}" class="attackBtn" href="/attack/fire">Attack</a>
+                        <a th:if="${lowToEnterFire}" class="attackBtnBlocked">Locked</a>
+                    </div>
+                    <div class="atkLogoDiv">
+                        <img class="atkLogo" src="/img/malukMech.png" alt="">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${wonBattle}" class="wonBattleMsgDiv">
+        <div class="fightPopupInfo">
+            <div th:if="${wonBattle1}">
+                <span>You have defeated Void portal level 1!</span><br>
+                <span>+ 1 gold <img class="goldCoin" src="/img/goldCoinSmall.jpg" alt=""></span><br>
+                <span>+ 2 raw meat</span><br>
+            </div>
+            <div th:if="${wonBattle2}">
+                <span>You have defeated Nether portal level 2!</span><br>
+                        <span>+ 2 gold <img class="goldCoin" src="/img/goldCoinSmall.jpg" alt=""></span><br>
+                        <span>+ 2 raw meat</span><br>
+            </div>
+            <div th:if="${wonBattle3}">
+                <span>You have defeated Fire portal level 3!</span><br>
+                <span>+ 3 gold <img class="goldCoin" src="/img/goldCoinSmall.jpg" alt=""></span><br>
+                <span>+ 1 raw meat</span><br>
+            </div>
+            <span th:if="${aluminiumWon} > 0">+ 1 aluminium</span>
+            <span th:if="${steelWon} > 0">+ 1 steel</span>
+        </div>
+        <div class="closeFightPopUpDiv">
+            <a href="/closeWonPopup" class="closeFightPopUp">Okay</a>
+        </div>
+    </div>
+    <div th:if="${lostBattle}" class="wonBattleMsgDiv" style="border-color: red">
+        <div  class="fightPopupInfo">
+            <span>You have lost!</span>
+        </div>
+        <div class="closeFightPopUpDiv">
+            <a href="/closeWonPopup" class="closeFightPopUp">Okay</a>
+        </div>
+    </div>
+    <div th:if="${notEnoughEnergy}" class="wonBattleMsgDiv" style="border-color: yellow">
+        <div  class="fightPopupInfo">
+            <p>Not enough energy.</p>
+        </div>
+        <div class="closeFightPopUpDiv">
+            <a href="/closeWonPopup" class="closeFightPopUp">Okay</a>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="fragments/commons :: footer"></footer>
+<script type="text/javascript" src="/js/app.js"></script>
+</body>
+
+</html>

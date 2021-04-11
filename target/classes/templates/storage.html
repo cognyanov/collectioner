@@ -14,20 +14,32 @@
 <div id="container" class="container">
     <nav th:replace="fragments/commons :: navigation"></nav>
 
+
+
     <div class="menuLeft">
         <div class="profile-info">
-            <p th:text="${getUsername}">Username</p>
-            <div class="energy">
-                <span>Energy: </span>
-                <span id="currEnergy" th:text="${hero.getEnergy()}"></span>
-                <span class="inline"> / 10</span>
-                <div class="energyBar" id="energyBar" style="width: 100%">Energy</div>
-                <span>You can restore </span>
-                <span th:text="${hero.energyToRestore}"></span>
-                <span> energy</span>
-                <a href="/restoreEnergy">Restore</a>
+            <div class="usernameText">
+                <span th:text="${getUsername}">Username</span>
             </div>
         </div>
+        <div class="energy">
+            <span>Energy: </span>
+            <span id="currEnergy" th:text="${hero.getEnergy()}"></span>
+            <span class="inline"> / 10</span>
+            <div class="energyBarHolder">
+                <div class="energyBar" id="energyBar"></div>
+            </div>
+            <span>You can restore </span>
+            <span th:text="${hero.energyToRestore}"></span>
+            <span> energy</span>
+            <div th:if="${canRestoreEnergy}" class="workBtnDiv">
+                <a class="workBtn" href="/restoreEnergy">Restore</a>
+            </div>
+            <div th:if="${!canRestoreEnergy}" class="workBtnBlockedDiv">
+                <a class="workBtn" href="/restoreEnergy">Restore</a>
+            </div>
+        </div>
+
 
         <ul th:object="${hero}" class="noMarker">
             <li>
@@ -50,197 +62,263 @@
             </li>
             <br>
             <li>
-                <div class="finances">
-                    Right hand:
-                    <span th:text="*{weapon.name}" class="toRight">100</span>
+                <div class="itemsMenuBox">
+                    Left hand
+                    <span th:text="*{shield.name}" class="toRight"><strong>Shield Level 100</strong></span>
+                </div>
+                <div class="itemsMenuBox">
+                    Right hand
+                    <br><span th:text="*{weapon.name}" class="toRight"><strong>Weapon Level 20</strong></span>
                 </div>
             </li>
-            <li>
-                <div class="finances">
-                    Left hand:
-                    <span th:text="*{shield.name}" class="toRight">100</span>
-                </div>
-            </li>
+
             <br>
             <li>
                 <div class="finances">
                     Gold
+                    <img class="goldCoin toRight" src="/img/goldCoinSmall.jpg" alt="">
                     <span th:text="*{gold}" class="toRight">100</span>
                 </div>
             </li>
 
             <br>
-            <a href="/storage">Storage</a> <br>
-            <a href="/work">Work area</a> <br>
-            <a href="/training-ground">Training ground</a> <br>
-            <a href="/items-upgrade">Upgrade items</a> <br>
-            <a href="">Fight now</a> <br>
-            <a href="">Rankings</a>
+            <div th:replace="fragments/commons :: navigBtns"></div>
         </ul>
 
     </div>
 
 
-
     <div class="midView">
         <div class="storageInfo">
             <div class="storageInfoLeft">
-
-                <div>Storage</div>
-
+                <div class="storageInfoText">Storage</div>
             </div>
             <div class="storageInfoMid">
 
-                <div class="storageStockLabel">Current stock:</div>
+                <div class="storageStockLabel">
+                    <div class="storageInfoText">Current stock:</div>
+                </div>
 
-                <div class="storageStockAmount">10000</div>
+                <div class="storageStockAmount" th:text="${totalStockStorage}">10000</div>
             </div>
         </div>
+
         <div class="storageItems" th:object="${hero}">
-            <div class="itemDiv">
 
-                <div class="itemName">Weapon</div>
-                <div class="itemImg">
-                    <img class="img" src="https://images-na.ssl-images-amazon.com/images/I/710yByxZb9L._AC_SL1500_.jpg" alt="">
-                </div>
-                <div class="itemInfo">
-                    <div class="itemQuality">
-                        <span th:text="*{weapon.name}">0</span>
+            <div class="dispBlock">
+
+                <div class="itemDiv">
+
+                    <div class="itemName">Weapon</div>
+                    <div class="itemImg">
+                        <img class="img"
+                             src="https://images-na.ssl-images-amazon.com/images/I/710yByxZb9L._AC_SL1500_.jpg"
+                             alt="">
                     </div>
-                    <div class="itemQuantity">
-                        <div class="itemPower">
-                            <p>ATK</p>
-                            <p th:text="*{weapon.getATK()}">1000</p>
+                    <div class="itemInfo">
+                        <div class="itemQuality">
+                            <span th:text="*{weapon.name}">0</span>
                         </div>
-                        <div class="itemPower">
-                            <p>DEF</p>
-                            <p th:text="*{weapon.getDEF()}">1000</p>
+                        <div class="itemQuantity">
+                            <div class="itemPower">
+                                <p>ATK</p>
+                                <p th:text="*{weapon.getATK()}">1000</p>
+                            </div>
+                            <div class="itemPower">
+                                <p>DEF</p>
+                                <p th:text="*{weapon.getDEF()}">1000</p>
+                            </div>
+                            <div class="itemPower">
+                                <p>HP</p>
+                                <p th:text="*{weapon.getHP()}">1000</p>
+                            </div>
                         </div>
-                        <div class="itemPower">
-                            <p>HP</p>
-                            <p th:text="*{weapon.getHP()}">1000</p>
+                    </div>
+                </div>
+                <div class="itemDiv">
+                    <div class="itemName">Shield</div>
+                    <div class="itemImg">
+                        <img class="img"
+                             src="https://ae01.alicdn.com/kf/HTB1K84CpKGSBuNjSspbq6AiipXah/Funny-1-1-Scale-61cm-simulation-WOW-King-Llane-Lion-Shield-resin-weapons-model-adult.jpg"
+                             alt="">
+                    </div>
+                    <div class="itemInfo">
+                        <div class="itemQuality">
+
+                            <span th:text="*{shield.name}">0</span>
+                        </div>
+                        <div class="itemQuantity">
+                            <div class="itemPower">
+                                <p>ATK</p>
+                                <p th:text="*{shield.getATK()}">1000</p>
+                            </div>
+                            <div class="itemPower">
+                                <p>DEF</p>
+                                <p th:text="*{shield.getDEF()}">1000</p>
+                            </div>
+                            <div class="itemPower">
+                                <p>HP</p>
+                                <p th:text="*{shield.getHP()}">1000</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="itemDiv">
+                    <div class="itemName">Steaks</div>
+                    <div class="itemImg">
+                        <br>
+                        <img class="img"
+                             src="https://i.pinimg.com/originals/50/44/26/5044262864aa315a42a2eab2a10fdde7.png"
+                             alt="">
+                    </div>
+                    <div class="itemInfo">
+
+                        <div class="itemQuantity">
+                            Restores 1 energy
+                            <p th:text="*{steaks}"></p>
+                            <a href="/restoreEnergy" class="useBtn">Use</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="itemDiv">
+                    <div class="itemName">Energy potions</div>
+                    <div class="itemImg">
+                        <img class="img"
+                             src="https://cdn4.iconfinder.com/data/icons/witchcraft-icons/200/magic_bulb_flask-512.png"
+                             alt="">
+                    </div>
+                    <div class="itemInfo">
+                        <div class="itemQuantity">
+                            Restores 10 energy
+                            <p th:text="*{energyPotions}"></p>
+                            <a href="/restoreFullEnergy" class="useBtn">Use</a>
+                            <button style="color: gold; border: none; background: none; font-size: 15px" id="buyEnergyPotionsBtn">Buy more</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="itemDiv">
-                <div class="itemName">Shield</div>
-                <div class="itemImg">
-                    <img class="img" src="https://ae01.alicdn.com/kf/HTB1K84CpKGSBuNjSspbq6AiipXah/Funny-1-1-Scale-61cm-simulation-WOW-King-Llane-Lion-Shield-resin-weapons-model-adult.jpg" alt="">
-                </div>
-                <div class="itemInfo">
-                    <div class="itemQuality">
 
-                        <span th:text="*{shield.name}">0</span>
+            <div class="buyEnergyPotions" id="buyEnergyPotions" style="display: none;">
+                <button class="closeEnergyPotionsOffer" id="closeEnergyPotionsOffer">X</button>
+                <div class="specialHeader">
+                    <h2>Special offer</h2>
+                </div>
+                <span>Energy potion x 10</span><br> <br>
+                <span>Price: 30 gold <img class="goldCoin" src="/img/goldCoinSmall.jpg" alt=""></span><br>
+                <br>
+                <div class="specialBuyBtnDiv">
+                    <a class="specialBuyBtn" href="/buy/energyPotions/confirm">Buy</a>
+                </div>
+                <div th:if="${notEnoughGold}" class="notEnoughGold" id="notEnoughGoldSpan">
+                    <span>Not enough gold</span>
+                </div>
+                <div th:if="${boughtPotions}" class="notEnoughGold bg-green" id="boughtPotions">
+                    <span>+ 10 Energy potions</span>
+                </div>
+            </div>
+
+
+            <div class="buyEnergyPotions" id="buyEnergyPotionsErr" th:if="${notEnoughGold} or ${boughtPotions}">
+
+                <div th:if="${notEnoughGold}" class="notEnoughGold">
+                    <span>Not enough gold</span>
+                </div>
+                <div th:if="${boughtPotions}" class="notEnoughGold" style="background-color: green">
+                    <span>+ 10 Energy potions</span>
+                </div>
+                <div class="okayBtnDiv"  id="okayBtnDiv">
+                    <span>Okay</span>
+                </div>
+            </div>
+
+
+            <div class="dispBlock">
+                <div class="itemDiv">
+                    <div class="matsName">Aluminium</div>
+                    <div class="itemImg">
+                        <img class="img" src="https://www.industrialmetalsupply.com/images/products/Ingot.jpg.jpg"
+                             alt="">
                     </div>
-                    <div class="itemQuantity">
-                        <div class="itemPower">
-                            <p>ATK</p>
-                            <p th:text="*{shield.getATK()}">1000</p>
+                    <div class="matsInfo">
+
+                        <div class="itemQuantity">
+                            <span>Use aluminum to craft weapons</span>
                         </div>
-                        <div class="itemPower">
-                            <p>DEF</p>
-                            <p th:text="*{shield.getDEF()}">1000</p>
+                    </div>
+                    <div class="matsPieces">
+
+                        <span th:text="*{aluminium}"></span>
+                    </div>
+                </div>
+                <div class="itemDiv">
+                    <div class="matsName">Steel</div>
+                    <div class="itemImg">
+                        <img class="img" src="https://images-na.ssl-images-amazon.com/images/I/31Lw7BKA86L._AC_.jpg"
+                             alt="">
+                    </div>
+                    <div class="matsInfo">
+
+                        <div class="itemQuantity">
+                            <span>Use steel to craft shields</span>
+
                         </div>
-                        <div class="itemPower">
-                            <p>HP</p>
-                            <p  th:text="*{shield.getHP()}">1000</p>
+                    </div>
+                    <div class="matsPieces">
+                        <span th:text="*{steel}"></span>
+                    </div>
+                </div>
+                <div class="itemDiv">
+                    <div class="matsName">Raw meat</div>
+                    <div class="itemImg">
+                        <img class="img"
+                             src="https://www.newhope.com/sites/newhope360.com/files/styles/article_featured_retina/public/uploads/2014/11/steak.jpg?itok=QbjpWW7_"
+                             alt="">
+                    </div>
+                    <div class="matsInfo">
+
+                        <div class="itemQuantity">
+                            <span>Bake raw meat to prepare steaks</span>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="itemDiv">
-                <div class="itemName">Steaks</div>
-                <div class="itemImg">
-                    <br>
-                    <img class="img" src="https://i.pinimg.com/originals/50/44/26/5044262864aa315a42a2eab2a10fdde7.png" alt="">
-                </div>
-                <div class="itemInfo">
-
-                    <div class="itemQuantity">
-                       Restores 1 energy
-                        <p th:text="*{steaks}"></p>
-                        <a href="/restoreEnergy">Use</a>
+                    <div class="matsPieces">
+                        <span th:text="*{rawSteaks}"></span>
                     </div>
                 </div>
-            </div>
-            <div class="itemDiv">
-                <div class="itemName">Energy potions</div>
-                <div class="itemImg">
-                    <img class="img" src="https://cdn4.iconfinder.com/data/icons/witchcraft-icons/200/magic_bulb_flask-512.png" alt="">
-                </div>
-                <div class="itemInfo">
-                    <div class="itemQuantity">
-                        Restores 10 energy
-                        <p th:text="*{energyPotions}"></p>
-                        <a href="/restoreFullEnergy">Use</a>
-                    </div>
-                </div>
-            </div>
-            <div class="itemDiv">
+
 
             </div>
-            <div class="itemDiv"></div>
-
-
-
         </div>
-        <div class="storageMats" th:object="${hero}">
-            <div class="itemDiv">
-                <div class="matsName">Aluminium</div>
-                <div class="itemImg">
-                    <img class="img" src="https://www.industrialmetalsupply.com/images/products/Ingot.jpg.jpg" alt="">
-                </div>
-                <div class="matsInfo">
-
-                    <div class="itemQuantity">
-                        <span>You can use aluminum to craft weapons</span>
-                    </div>
-                </div>
-                <div class="matsPieces">
-
-                    <p th:text="*{aluminium}"></p>
+        <div class="fireplace">
+            <h2 class="toCenter">Fireplace</h2>
+            <div class="fireplaceInfo">
+                <span>You can prepare </span>
+                <span th:text="${hero.getRawSteaks()}">0</span>
+                <span> steaks</span><br>
+            </div>
+            <div class="bakeBtnDiv">
+                <a class="bakeBtn" href="/storage/bake">Bake</a>
+            </div>
+            <div th:if="${preparedSteaks}" class="bakeNotif">
+                <div th:if="${preparedSteaks} > 0">
+                    <span>+ </span>
+                    <span th:text="${preparedSteaks}">0</span>
+                    <span> steaks</span>
                 </div>
             </div>
-            <div class="itemDiv">
-                <div class="matsName">Steel</div>
-                <div class="itemImg">
-                    <img class="img" src="https://lh3.googleusercontent.com/proxy/WfbI3L2xPO2u3MRxltZ0kLKrBwnCfJ5pv2WktpC3OcgnRFfYJg80pX-LjDguII1y4IPEZvhCH0ciOPJpSHojh-PYRK6jHcHH4amuHDyPi8VWIj02ew" alt="">
-                </div>
-                <div class="matsInfo">
-
-                    <div class="itemQuantity">
-                        <span>You can use steel to craft shields</span>
-
-                    </div>
-                </div>
-                <div class="matsPieces">
-                    <p th:text="*{steel}"></p>
+            <div th:if="${notRawMeat}" class="bakeErr">
+                <div th:if="${notRawMeat}">
+                    <span>You don't have raw meat.</span>
                 </div>
             </div>
-            <div class="itemDiv">
-                <div class="matsName">Raw meat</div>
-                <div class="itemImg">
-                    <img class="img" src="https://www.newhope.com/sites/newhope360.com/files/styles/article_featured_retina/public/uploads/2014/11/steak.jpg?itok=QbjpWW7_" alt="">
-                </div>
-                <div class="matsInfo">
-
-                    <div class="itemQuantity">
-                        <span>You can bake raw meat to prepare steaks</span>
-                    </div>
-                </div>
-                <div class="matsPieces">
-                    <p th:text="*{rawSteaks}"></p>
-                </div>
-            </div>
-            <div class="itemDiv"></div>
-            <div class="itemDiv"></div>
-            <div class="itemDiv"></div>
-
         </div>
+
+
     </div>
 
+
+
     <footer th:replace="fragments/commons :: footer"></footer>
+
 </div>
 <script type="text/javascript" src="/js/app.js"></script>
 </body>
