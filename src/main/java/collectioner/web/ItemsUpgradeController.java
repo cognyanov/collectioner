@@ -20,7 +20,11 @@ public class ItemsUpgradeController {
 
     @ModelAttribute("getUsername")
     public String getUsername() {
-        return getCurrentUsername();
+        StringBuilder name = new StringBuilder();
+        String oldName = getCurrentUsername();
+        name.append(oldName.substring(0, 1).toUpperCase());
+        name.append(oldName.substring(1).toLowerCase());
+        return name.toString();
 
     }
 
@@ -50,6 +54,16 @@ public class ItemsUpgradeController {
         return false;
     }
 
+    @ModelAttribute("notEnoughAluminium")
+    public boolean notEnoughAluminium() {
+        return false;
+    }
+
+    @ModelAttribute("notEnoughSteel")
+    public boolean notEnoughSteel() {
+        return false;
+    }
+
     @ModelAttribute("maxedWeapon")
     public boolean maxedWeapon() {
         if (heroService.getCurrentHero().getWeapon().getId() == 3L) {
@@ -57,12 +71,19 @@ public class ItemsUpgradeController {
         }
         return false;
     }
+
     @ModelAttribute("maxedShield")
     public boolean maxedShield() {
         if (heroService.getCurrentHero().getShield().getId() == 6L) {
             return true;
         }
         return false;
+    }
+
+    @ModelAttribute("canRestoreEnergy")
+    public boolean canRestoreEnergy() {
+
+        return heroService.getCurrentHero().getEnergyToRestore() >= 1 && heroService.getCurrentHero().getSteaks() >= 1 && heroService.getCurrentHero().getEnergy() <= 9;
     }
 
 
@@ -73,25 +94,42 @@ public class ItemsUpgradeController {
 
     @GetMapping("/items-upgrade/upgrade-weapon")
     public String upgradeWeapon(RedirectAttributes redirectAttributes) {
-
-            if (heroService.upgradeWeapon()) {
-                redirectAttributes.addFlashAttribute("successfullyUpgradedWeapon", true);
-            } else {
-                redirectAttributes.addFlashAttribute("notEnoughGold", true);
-            }
+        if (heroService.getCurrentHero().getWeapon().getId() == 1 && heroService.getCurrentHero().getAluminium() < 5) {
+            redirectAttributes.addFlashAttribute("notEnoughAluminium", true);
             return "redirect:/items-upgrade";
+
+        } else if (heroService.getCurrentHero().getWeapon().getId() == 2 && heroService.getCurrentHero().getAluminium() < 30) {
+            redirectAttributes.addFlashAttribute("notEnoughAluminium", true);
+            return "redirect:/items-upgrade";
+        }
+
+        if (heroService.upgradeWeapon()) {
+            redirectAttributes.addFlashAttribute("successfullyUpgradedWeapon", true);
+        } else {
+            redirectAttributes.addFlashAttribute("notEnoughGold", true);
+        }
+        return "redirect:/items-upgrade";
 
     }
 
     @GetMapping("/items-upgrade/upgrade-shield")
     public String upgradeShield(RedirectAttributes redirectAttributes) {
+        if (heroService.getCurrentHero().getShield().getId() == 4 && heroService.getCurrentHero().getSteel() < 5) {
+            redirectAttributes.addFlashAttribute("notEnoughSteel", true);
+            return "redirect:/items-upgrade";
 
-           if (heroService.upgradeShield()) {
-               redirectAttributes.addFlashAttribute("successfullyUpgradedShield", true);
-           } else {
-               redirectAttributes.addFlashAttribute("notEnoughGold", true);
-           }
-           return "redirect:/items-upgrade";
+        } else if (heroService.getCurrentHero().getShield().getId() == 5 && heroService.getCurrentHero().getSteel() < 30) {
+            redirectAttributes.addFlashAttribute("notEnoughSteel", true);
+            return "redirect:/items-upgrade";
+        }
+
+
+        if (heroService.upgradeShield()) {
+            redirectAttributes.addFlashAttribute("successfullyUpgradedShield", true);
+        } else {
+            redirectAttributes.addFlashAttribute("notEnoughGold", true);
+        }
+        return "redirect:/items-upgrade";
 
     }
 

@@ -13,4 +13,8 @@ public interface UserService {
     boolean usernameExists(String username);
 
     void loginUser(UserLoginServiceModel userServiceModel);
+
+    void initAdmin();
+
+    UserEntity findByUsername(String username);
 }

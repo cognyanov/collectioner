@@ -10,7 +10,7 @@ public class UserRegistrationBindingModel {
     @Size(min = 3, max = 20)
     private String username;
     @NotBlank()
-    @Size(min = 4, max = 26)
+    @Size(min = 6, max = 26)
     private String password;
     @NotBlank()
     private String confirmPassword;

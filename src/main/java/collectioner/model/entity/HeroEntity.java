@@ -24,6 +24,8 @@ public class HeroEntity extends BaseEntity{
     private int rawSteaks;
     private int energyPotions;
     private int energyToRestore;
+    private int daysWorked;
+    private int daysTrained;
 
     @ManyToOne
     private ItemEntity weapon;
@@ -34,6 +36,11 @@ public class HeroEntity extends BaseEntity{
         this.HP = this.baseHP + this.weapon.getHP() + this.shield.getHP();
         this.attack = this.baseAttack + this.weapon.getATK() + this.shield.getATK();
         this.defense = this.baseDefense + this.weapon.getDEF() + this.shield.getDEF();
+    }
+
+    public void hit(Monster monster) {
+        int attack = Math.max(0, this.attack - monster.getDEF());
+        monster.setHP(monster.getHP() - attack);
     }
 
 
@@ -179,5 +186,21 @@ public class HeroEntity extends BaseEntity{
 
     public void setEnergyToRestore(int energyToRestore) {
         this.energyToRestore = energyToRestore;
+    }
+
+    public int getDaysWorked() {
+        return daysWorked;
+    }
+
+    public void setDaysWorked(int daysWorked) {
+        this.daysWorked = daysWorked;
+    }
+
+    public int getDaysTrained() {
+        return daysTrained;
+    }
+
+    public void setDaysTrained(int daysTrained) {
+        this.daysTrained = daysTrained;
     }
 }

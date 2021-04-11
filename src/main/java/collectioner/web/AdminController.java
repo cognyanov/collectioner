@@ -2,6 +2,8 @@ package collectioner.web;
 
 import collectioner.model.binding.UserDemoteRoleBindingModel;
 import collectioner.model.binding.UserRolesBindingModel;
+import collectioner.model.binding.UserSearchBindingModel;
+import collectioner.model.entity.UserEntity;
 import collectioner.model.service.UserRolesServiceModel;
 import collectioner.service.UserRoleService;
 import collectioner.service.UserService;
@@ -47,6 +49,11 @@ public class AdminController {
     @ModelAttribute("invalidDemote")
     public boolean invalidDemote() {
         return false;
+    }
+
+    @ModelAttribute("loadedUser")
+    public UserEntity loadedUser() {
+        return null;
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -100,5 +107,15 @@ public class AdminController {
 
         return "redirect:/home";
 
+    }
+
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/admin/searchUser")
+    public String searchUserByUsername(UserSearchBindingModel userSearchBindingModel, RedirectAttributes redirectAttributes) {
+        UserEntity user = userService.findByUsername(userSearchBindingModel.getUsernameGold());
+        redirectAttributes.addFlashAttribute("loadedUser", user);
+
+        return "adminSearch";
     }
 }

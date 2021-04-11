@@ -50,6 +50,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void registerUser(UserRegistrationServiceModel userServiceModel) {
         UserEntity newUser = modelMapper.map(userServiceModel, UserEntity.class);
+        StringBuilder usernameFixed = new StringBuilder();
+        usernameFixed.append(newUser.getUsername().substring(0, 1).toUpperCase());
+        usernameFixed.append(newUser.getUsername().substring(1).toLowerCase());
+
+        newUser.setUsername(usernameFixed.toString());
         newUser.setPassword(passwordEncoder.encode(userServiceModel.getPassword()));
 
         UserRoleEntity userRole = userRoleRepository.
@@ -64,6 +69,8 @@ public class UserServiceImpl implements UserService {
         hero.setBaseDefense(10);
         hero.setGold(20);
         hero.setEnergy(10);
+        hero.setAluminium(5);
+        hero.setSteel(5);
         hero.setWeapon(itemRepository.findById(1L).orElse(null));
         hero.setShield(itemRepository.findById(4L).orElse(null));
         hero.updateStats();
@@ -104,4 +111,25 @@ public class UserServiceImpl implements UserService {
         }
 
     }
+
+    @Override
+    public void initAdmin() {
+        if (userRepository.findByUsername("admin").isEmpty()) {
+
+            UserRegistrationServiceModel adminModel = new UserRegistrationServiceModel();
+            adminModel.setUsername("admin");
+            adminModel.setPassword("123123");
+            this.registerUser(adminModel);
+            UserEntity userEntity = userRepository.findByUsername("admin").get();
+            userEntity.addRole(userRoleRepository.findByRole(UserRole.ADMIN).get());
+            userRepository.save(userEntity);
+        }
+    }
+
+    @Override
+    public UserEntity findByUsername(String username) {
+        return this.userRepository.findByUsername(username).orElse(null);
+    }
+
+
 }

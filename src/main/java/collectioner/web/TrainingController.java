@@ -20,7 +20,11 @@ public class TrainingController {
 
     @ModelAttribute("getUsername")
     public String getUsername() {
-        return getCurrentUsername();
+        StringBuilder name = new StringBuilder();
+        String oldName = getCurrentUsername();
+        name.append(oldName.substring(0, 1).toUpperCase());
+        name.append(oldName.substring(1).toLowerCase());
+        return name.toString();
 
     }
 
@@ -43,20 +47,40 @@ public class TrainingController {
         return false;
     }
 
+    @ModelAttribute("canRestoreEnergy")
+    public boolean canRestoreEnergy() {
+        return heroService.getCurrentHero().getEnergyToRestore() >= 1 && heroService.getCurrentHero().getSteaks() >= 1 && heroService.getCurrentHero().getEnergy() <= 9;
+    }
+    @ModelAttribute("hasTrained")
+    public boolean hasTrained() {
+        return heroService.getCurrentHero().isHasTrained();
+    }
+
+    @ModelAttribute("bonusTrain")
+    public boolean bonusTrain() {
+        return false;
+    }
+
+
     @GetMapping("/training-ground")
     public String trainingPage() {
-
-        return "trainingGround";
+        return "training-ground";
     }
 
     @GetMapping("/training-ground/trainNow")
     public String trainNow(RedirectAttributes redirectAttributes) {
-        if (heroService.train()) {
-            redirectAttributes.addFlashAttribute("successfullyWorkedOut", true);
-        } else {
-            redirectAttributes.addFlashAttribute("notEnoughEnergy", true);
-        }
+        if (!heroService.getCurrentHero().isHasTrained()) {
 
+            if (heroService.train()) {
+                if (heroService.getCurrentHero().getDaysTrained() == 5) {
+                    redirectAttributes.addFlashAttribute("bonusTrain", true);
+                }
+                redirectAttributes.addFlashAttribute("successfullyWorkedOut", true);
+            } else {
+                redirectAttributes.addFlashAttribute("notEnoughEnergy", true);
+            }
+
+        }
         return "redirect:/training-ground";
     }
 

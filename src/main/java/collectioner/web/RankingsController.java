@@ -1,34 +1,40 @@
 package collectioner.web;
 
 import collectioner.model.entity.HeroEntity;
+import collectioner.model.entity.UserEntity;
 import collectioner.service.HeroService;
-import org.apache.catalina.filters.ExpiresFilter;
-import org.apache.coyote.Request;
-import org.hibernate.validator.constraints.URL;
-import org.springframework.data.domain.Page;
-import org.springframework.security.access.prepost.PreAuthorize;
+import collectioner.service.RankingsService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.print.attribute.Attribute;
-import javax.servlet.http.HttpSession;
-import javax.swing.*;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
+import java.util.List;
+
 
 @Controller
-
-public class HomeController {
-
+public class RankingsController {
     private final HeroService heroService;
+    private final RankingsService rankingsService;
 
-    public HomeController(HeroService heroService) {
+    public RankingsController(HeroService heroService, RankingsService rankingsService) {
         this.heroService = heroService;
+        this.rankingsService = rankingsService;
+    }
+
+    @ModelAttribute("top10ByAtk")
+    public List<UserEntity> getTop10ByAttack(){
+        return rankingsService.top10ByAttack();
+
+    }
+    @ModelAttribute("top10ByDef")
+    public List<UserEntity> getTop10ByDefense(){
+        return rankingsService.top10ByDef();
+    }
+    @ModelAttribute("top10ByHP")
+    public List<UserEntity> getTop10ByHP(){
+        return rankingsService.top10ByHP();
     }
 
     @ModelAttribute("getUsername")
@@ -60,32 +66,23 @@ public class HomeController {
         return true;
     }
 
-
-    @GetMapping("/energy")
-    public String energy() {
-        return heroService.getCurrentHero().getEnergy() + "";
+    @GetMapping("/rankings")
+    public String rankings() {
+        return "rankings";
+    }
+    @GetMapping("/rankings/byAttack")
+    public String rankingByAttack() {
+        return "rankByAttack";
+    }
+    @GetMapping("/rankings/byDefense")
+    public String rankingByDefense() {
+        return "rankByDefense";
+    }
+    @GetMapping("/rankings/byHP")
+    public String rankingByHP() {
+        return "rankByHP";
     }
 
-
-    @GetMapping("/")
-    public String index() {
-
-        return "index";
-    }
-
-    @GetMapping("/home")
-    public String home() {
-
-        return "home";
-    }
-
-    @GetMapping("/restoreEnergy")
-    public String restoreEnergy() {
-
-        heroService.restoreEnergy();
-
-        return "redirect:/home";
-    }
 
 
     public String getCurrentUsername() {

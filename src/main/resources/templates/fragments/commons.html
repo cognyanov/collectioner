@@ -31,6 +31,181 @@
     </div>
 </nav>
 
+// Menu left navigation buttons
+<div th:fragment="navigBtns">
+    <div class="menuBtn">
+        <a class="menuBtnText" href="/storage">Storage</a> <br>
+    </div>
+    <div class="menuBtn">
+        <a class="menuBtnText" href="/work">Work area</a> <br>
+    </div>
+    <div class="menuBtn">
+        <a class="menuBtnText" href="/training-ground">Training ground</a> <br>
+    </div>
+    <div class="menuBtn">
+        <a class="menuBtnText" href="/items-upgrade">Upgrade items</a> <br>
+    </div>
+    <div class="menuBtn">
+        <a class="menuBtnText" href="/fight">Fight now</a> <br>
+    </div>
+    <div class="menuBtn">
+        <a class="menuBtnText" href="/rankings">Rankings</a>
+    </div>
+</div>
+
+// Weapon Level 1 -- upgrades -> next level item
+<div th:fragment="weaponLvl1nextItem" class="itemDiv nextLvlItem">
+    <div class="itemName">Weapon</div>
+    <div class="itemImg">
+        <img class="img"
+             src="https://images-na.ssl-images-amazon.com/images/I/710yByxZb9L._AC_SL1500_.jpg" alt="">
+    </div>
+    <div class="itemInfo">
+        <div class="itemQuality">
+            <span>Weapon Level 1</span>
+        </div>
+
+        <div class="itemQuantity">
+            <div class="itemPower">
+                <p>ATK</p>
+                <p>20</p>
+            </div>
+            <div class="itemPower">
+                <p>DEF</p>
+                <p>10</p>
+            </div>
+            <div class="itemPower">
+                <p>HP</p>
+                <p>10</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="itemPrice">
+        <span>Price:</span><br>
+        <span>10</span>
+        <span> gold <img class="goldCoin" src="/img/goldCoinSmall.jpg" alt=""></span><br>
+        <span>5</span>
+        <span> aluminium</span>
+    </div>
+</div>
+
+// Weapon level 2 -- upgrages -> next level item
+<div th:fragment="weaponLvl2nextItem" class="itemDiv nextLvlItem">
+    <div class="itemName">Weapon</div>
+    <div class="itemImg">
+        <img class="img"
+             src="https://images-na.ssl-images-amazon.com/images/I/710yByxZb9L._AC_SL1500_.jpg" alt="">
+    </div>
+    <div class="itemInfo">
+        <div class="itemQuality">
+            <span>Weapon Level 2</span>
+        </div>
+
+        <div class="itemQuantity">
+            <div class="itemPower">
+                <p>ATK</p>
+                <p>60</p>
+            </div>
+            <div class="itemPower">
+                <p>DEF</p>
+                <p>30</p>
+            </div>
+            <div class="itemPower">
+                <p>HP</p>
+                <p>30</p>
+            </div>
+        </div>
+    </div>
+    <div class="itemPrice">
+        <span>Price:</span><br>
+        <span>30</span>
+        <span> gold <img class="goldCoin" src="/img/goldCoinSmall.jpg" alt=""></span><br>
+        <span>30</span>
+        <span> aluminium</span>
+    </div>
+</div>
+
+// Shield Level 1 -- upgrades -> next level item
+<div th:fragment="shieldLvl1nextItem" class="itemDiv nextLvlItem">
+    <div class="itemName">Shield</div>
+    <div class="itemImg">
+        <img class="img"
+             src="https://ae01.alicdn.com/kf/HTB1K84CpKGSBuNjSspbq6AiipXah/Funny-1-1-Scale-61cm-simulation-WOW-King-Llane-Lion-Shield-resin-weapons-model-adult.jpg"
+             alt="">
+    </div>
+    <div class="itemInfo">
+        <div class="itemQuality">
+
+            <span>Shield Level 1</span>
+        </div>
+
+        <div class="itemQuantity">
+            <div class="itemPower">
+                <p>ATK</p>
+                <p>5</p>
+            </div>
+            <div class="itemPower">
+                <p>DEF</p>
+                <p>20</p>
+            </div>
+            <div class="itemPower">
+                <p>HP</p>
+                <p>50</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="itemPrice">
+        <span>Price:</span><br>
+        <span>10</span>
+        <span> gold <img class="goldCoin" src="/img/goldCoinSmall.jpg" alt=""></span><br>
+        <span>5</span>
+        <span> steel</span>
+    </div>
+</div>
+</div>
+
+// Shield Level 2 -- upgrades -> next level item
+<div th:fragment="shieldLvl2nextItem" class="itemDiv nextLvlItem">
+    <div class="itemName">Shield</div>
+    <div class="itemImg">
+        <img class="img"
+             src="https://ae01.alicdn.com/kf/HTB1K84CpKGSBuNjSspbq6AiipXah/Funny-1-1-Scale-61cm-simulation-WOW-King-Llane-Lion-Shield-resin-weapons-model-adult.jpg"
+             alt="">
+    </div>
+    <div class="itemInfo">
+        <div class="itemQuality">
+
+            <span>Shield Level 2</span>
+        </div>
+        <div class="itemQuantity">
+            <div class="itemPower">
+                <p>ATK</p>
+                <p>15</p>
+            </div>
+            <div class="itemPower">
+                <p>DEF</p>
+                <p>60</p>
+            </div>
+            <div class="itemPower">
+                <p>HP</p>
+                <p>150</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="itemPrice">
+        <span>Price:</span><br>
+        <span>30</span>
+        <span> gold <img class="goldCoin" src="/img/goldCoinSmall.jpg" alt=""></span><br>
+        <span>30</span>
+        <span> steel</span>
+    </div>
+
+</div>
+</div>
+
 
 // Footer
 <footer th:fragment="footer" class="footer">

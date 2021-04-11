@@ -12,16 +12,18 @@ public class ItemEntity extends BaseEntity {
     private int ATK;
     private int DEF;
     private int price;
+    private int priceAluminium;
 
     public ItemEntity() {
     }
 
-    public ItemEntity(String name, int HP, int ATK, int DEF, int price) {
+    public ItemEntity(String name, int HP, int ATK, int DEF, int price, int priceAluminium) {
         this.name = name;
         this.HP = HP;
         this.ATK = ATK;
         this.DEF = DEF;
         this.price = price;
+        this.priceAluminium = priceAluminium;
     }
 
     public String getName() {
@@ -62,5 +64,13 @@ public class ItemEntity extends BaseEntity {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getPriceAluminium() {
+        return priceAluminium;
+    }
+
+    public void setPriceAluminium(int priceAluminium) {
+        this.priceAluminium = priceAluminium;
     }
 }

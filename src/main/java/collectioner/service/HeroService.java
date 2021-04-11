@@ -16,4 +16,17 @@ public interface HeroService {
     void restoreEnergy();
 
     void usePotion();
+
+    boolean attackVoid();
+    boolean attackNether();
+    boolean attackFire();
+
+    int[] wonVoid();
+    int[] wonNether();
+    int[] wonFire();
+
+    int bake();
+
+
+    void buy10EnergyPotions();
 }

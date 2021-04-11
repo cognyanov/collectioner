@@ -41,10 +41,9 @@ public class CollectionerUserService implements UserDetailsService {
     @Scheduled(fixedDelay = 86400000, initialDelay = 86400000)
     public void updateDay() {
         heroRepository.findAll().forEach(h -> {
-            if (h.isHasWorked()) {
                 h.setHasWorked(false);
+                h.setHasTrained(false);
                 heroRepository.save(h);
-            }
         });
     }
 
